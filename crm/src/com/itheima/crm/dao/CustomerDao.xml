@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.crm.dao.CustomerDao">
+		<!-- 总条数 -->
+	<select id="countCustomerQueryVo" parameterType="QueryVo" resultType="Integer">
+		select count(1) from customer
+		<where>
+			<if test="custName !=null and custName !=''">
+				cust_name like "%"#{custName}"%"
+			</if>
+			<if test="custSource !=null and custSource !=''">
+				and cust_source like "%"#{custSource}"%"
+			</if>
+			<if test="custIndustry !=null and custIndustry !=''">
+				and cust_industry like "%"#{custIndustry}"%"
+			</if>
+			<if test="custLevel !=null and custLevel !=''">
+				and cust_level like "%"#{custLevel}"%"
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 结果集 -->
+	<select id="selectCustomerListQueryVo" parameterType="QueryVo" resultType="Customer">
+		Select * from customer
+		<where>
+			<if test="custName !=null and custName !=''">
+				cust_name like "%"#{custName}"%"
+			</if>
+			<if test="custSource !=null and custSource !=''">
+				and cust_source like "%"#{custSource}"%"
+			</if>
+			<if test="custIndustry !=null and custIndustry !=''">
+				and cust_industry like "%"#{custIndustry}"%"
+			</if>
+			<if test="custLevel !=null and custLevel !=''">
+				and cust_level like "%"#{custLevel}"%"
+			</if>
+		</where>
+		limit #{start},#{size}
+	</select>
+	
+	
+	<!-- 通过id查询客户对象 -->
+	<select id="selectCustomerQueryVo" parameterType="Integer" resultType="Customer">
+		select * from customer where cust_id=#{id}
+	</select>
+	
+	
+	<!-- 修改  保存 -->
+	<select id="uodateCustomerQueryVo" parameterType="Customer">
+		update customer
+		<set>
+			<if test="cust_name !=null and cust_name !=''">
+				cust_name=#{cust_name},
+			</if>
+			<if test="cust_mobile !=null and cust_mobile!=''">
+				cust_mobile=#{cust_mobile}
+			</if>
+		</set>
+		<where>
+			cust_id=#{cust_id}
+		</where>
+	</select>
+	
+	<!-- 根据id删除 -->
+	
+	<select id="deleteCustomerQueryVo" parameterType="Integer">
+		delete from customer where cust_id=#{cust_id}
+	</select>
+</mapper>
